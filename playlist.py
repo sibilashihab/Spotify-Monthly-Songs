@@ -7,14 +7,14 @@
 # add to new playlist based on each month
 
 import json
+import os
 import requests
 from datetime import datetime
 from refresh import Refresh
-from secret import spotify_user_id
 
 class save:
     def __init__(self):
-        self.spotify_user_id = spotify_user_id
+        self.spotify_user_id = os.environ.get("SPOTIFY_USER_ID")
         self.spotify_token = ""
 
     def findSongs(self):

@@ -1,11 +1,11 @@
 import requests
 import json
-from secret import refresh_token, base_64
+import os
 
 class Refresh:
     def __init__(self):
-        self.refresh_token = refresh_token
-        self.base_64 = base_64
+        self.refresh_token = os.environ.get("SPOTIFY_REFRESH_TOKEN")
+        self.base_64 = os.environ.get("SPOTIFY_BASE64")
 
     def refresh(self):
 
