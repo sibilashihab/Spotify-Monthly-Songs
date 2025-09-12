@@ -9,13 +9,13 @@
 import json
 import requests
 from datetime import datetime
-from secret import spotify_token, spotify_user_id, discover_temp_id
+from refresh import Refresh
+from secret import spotify_user_id
 
 class save:
     def __init__(self):
         self.spotify_user_id = spotify_user_id
-        self.spotify_token = spotify_token
-        self.discover_temp_id = discover_temp_id
+        self.spotify_token = ""
 
     def findSongs(self):
         #loop through first 50 liked songs
@@ -129,10 +129,26 @@ class save:
         else:
             print("Tracks added!")
 
-a = save()
-likedsongs = a.findSongs()
-newplaylistid, currentmonth = a.createPlaylist()
-if newplaylistid:
-    a.addSongs(newplaylistid,likedsongs, currentmonth)
-else:
-    print("Cannot create or get playlist. Skipping song addition.")
+    def callRefresh(self):
+        print("Refreshing token")
+        refresh_caller = Refresh()        
+        token = refresh_caller.refresh()
+
+        if not token:
+            print("Failed to refresh token. Exiting program.")
+            exit(1)  # exit if token is invalid
+        else:
+            self.spotify_token = token 
+
+def main():
+    a = save()
+    a.callRefresh()
+    likedsongs = a.findSongs()
+    newplaylistid, currentmonth = a.createPlaylist()
+    if newplaylistid:
+        a.addSongs(newplaylistid, likedsongs, currentmonth)
+    else:
+        print("Cannot create or get playlist. Skipping song addition.")
+
+if __name__ == "__main__":
+    main()
