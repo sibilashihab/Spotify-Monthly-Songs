@@ -3,6 +3,7 @@ name: Run Monthly Playlist on Last Day (Testing)
 on:
   schedule:
     - cron: '*/5 * * * *'  # Every 5 minutes for testing
+  workflow_dispatch:       # Optional: Allows you to trigger manually from GitHub UI
 
 jobs:
   run:
@@ -20,9 +21,14 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
+      - name: Debug secrets
+        run: echo "BASE64 is ${SPOTIFY_BASE64:0:4}****"
+        env:
+          SPOTIFY_BASE64: ${{ secrets.SPOTIFY_BASE64 }}
+
       - name: Run playlist script
+        run: python3 playlist.py
         env:
           SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
           SPOTIFY_BASE64: ${{ secrets.SPOTIFY_BASE64 }}
           SPOTIFY_USER_ID: ${{ secrets.SPOTIFY_USER_ID }}
-        run: python3 playlist.py
