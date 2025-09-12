@@ -2,7 +2,7 @@ name: Run Monthly Playlist on Last Day
 
 on:
   schedule:
-    - cron: '59 23 28-31 * *'  # At 23:59 on days 28-31
+    - cron: '*/5 * * * *'   # At 23:59 on days 28-31
 
 jobs:
   run:
