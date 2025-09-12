@@ -1,2 +1,1 @@
-# discover-weekly-spotify
-A tool that adds all songs in discover weekly to a new playlist, and updates it every time it refreshes
+A tool that adds liked songs from the past month into a new playlist
