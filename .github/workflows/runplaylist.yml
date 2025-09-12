@@ -1,9 +1,8 @@
-name: Run Monthly Playlist on Last Day (Testing)
+name: Monthly Playlist
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # Every 5 minutes for testing
-  workflow_dispatch:       # Optional: Allows you to trigger manually from GitHub UI
+    - cron: '59 19 28-31 * *'  # Run at 23:59 GST 
 
 jobs:
   run:
@@ -21,14 +20,19 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Debug secrets
-        run: echo "BASE64 is ${SPOTIFY_BASE64:0:4}****"
-        env:
-          SPOTIFY_BASE64: ${{ secrets.SPOTIFY_BASE64 }}
+      - name: Check if it's the last day of the month
+        id: check_date
+        run: |
+          python3 -c "import datetime
+            now = datetime.datetime.utcnow()
+            tomorrow = now + datetime.timedelta(days=1)
+            # Exit with 1 (failure) to proceed with the script ONLY if tomorrow is next month
+            exit(1) if now.month != tomorrow.month else exit(0)"
 
       - name: Run playlist script
-        run: python3 playlist.py
+        if: steps.check_date.outcome == 'failure'  # Only run if it's the last day
         env:
           SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
           SPOTIFY_BASE64: ${{ secrets.SPOTIFY_BASE64 }}
           SPOTIFY_USER_ID: ${{ secrets.SPOTIFY_USER_ID }}
+        run: python3 playlist.py
