@@ -1,6 +1,7 @@
 name: Monthly Playlist
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 14 28-31 * *' # Run at 18:00 GST (14:00 UTC)
 
