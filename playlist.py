@@ -22,11 +22,19 @@ class save:
 
             data = response.json()["items"]
             tracks =[]
+            seen_uris = set()  # track uris already added
             for i in data:
+                track_info = i["track"] if "track" in i else i
+                track_uri = track_info["uri"]
+
+                if track_uri in seen_uris:
+                        continue  # skip duplicates within the same api call
+                seen_uris.add(track_uri)
+
                 trackdata= {
                     "date": datetime.strptime(i["added_at"][:7], "%Y-%m").strftime("%B %Y") if i.get("added_at") else datetime.now().strftime("%B %Y"), #slice only year and month and convert month to string
-                    "uri":  i["track"]["uri"] if i.get("track") else i["uri"], #track uri
-                    "song": i["track"]["name"] if i.get("track") else i["name"] #song name
+                    "uri": track_uri, #track uri
+                    "song": track_info["name"] #song name
                 }
                 tracks.append(trackdata)
             return tracks
@@ -37,8 +45,15 @@ class save:
         liked_tracks = fetchTracks(liked_url)
         top_tracks = fetchTracks(top_url)
 
-        all_tracks = {t["uri"]: t for t in liked_tracks + top_tracks} # avoid duplicates by using uri as key
-        return list(all_tracks.values())
+
+        all_tracks = []
+        seen = set()
+        for track in liked_tracks + top_tracks:
+            if track["uri"] not in seen: #avoid duplicates between liked and top tracks
+                seen.add(track["uri"])
+                all_tracks.append(track)
+
+        return all_tracks
 
 
     def createPlaylist(self):
