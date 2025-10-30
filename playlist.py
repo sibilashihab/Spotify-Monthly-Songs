@@ -24,12 +24,13 @@ class save:
             tracks =[]
             for i in data:
                 trackdata= {
-                    "date": datetime.strptime(i["added_at"][:7], "%Y-%m").strftime("%B %Y"), #slice only year and month and convert month to string
+                    "date": datetime.strptime(i["added_at"][:7], "%Y-%m").strftime("%B %Y") if "added_at" in i else datetime.now().strftime("%B %Y"), #slice only year and month and convert month to string
                     "uri":  i["track"]["uri"], #track uri
                     "song": i["track"]["name"] #song name
                 }
                 if trackdata not in tracks:  #avoid duplicates
                     tracks.append(trackdata)
+            return tracks
 
         liked_url = "https://api.spotify.com/v1/me/tracks?limit=50" #loop through first 50 liked songs
         top_url = "https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=50" #find users top songs in the past month
