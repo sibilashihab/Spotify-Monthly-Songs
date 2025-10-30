@@ -28,9 +28,12 @@ If the playlist for the month already exists, it simply updates it with any new 
 
 ## Setup
 
-### 1. Clone this repository
+### 1. Fork and Clone this repository
+Click   [Fork](https://github.com/sibilashihab/spotify-monthly-songs/fork) to fork this repository
+
+Then run this on terminal:
 ```bash
-git clone https://github.com/sibilashihab/spotify-monthly-songs.git
+git clone https://github.com/<yourusername>/spotify-monthly-songs.git
 cd spotify-monthly-songs
 ```
 
@@ -176,4 +179,5 @@ The script ensures it only executes on the last day of each month.
 ## Author
 
 Sibila Shihab
+
 
