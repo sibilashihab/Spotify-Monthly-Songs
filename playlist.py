@@ -122,7 +122,7 @@ class save:
 
         uris = [] #list to store all songs of the month
         for song in likedsongs:
-            if song["date"] == currentmonth and song["uri"] not in existingsongs:
+            if song["date"] == currentmonth and song["uri"] not in existingsongs and song["uri"] not in uris:
                 uris.append(song["uri"]) #getting uris from dictionary of liked tracks if it was added this month
 
         if not uris:
