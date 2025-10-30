@@ -24,7 +24,7 @@ class save:
             tracks =[]
             for i in data:
                 trackdata= {
-                    "date": datetime.strptime(i["added_at"][:7], "%Y-%m").strftime("%B %Y") if "added_at" in i else datetime.now().strftime("%B %Y"), #slice only year and month and convert month to string
+                    "date": datetime.strptime(i["added_at"][:7], "%Y-%m").strftime("%B %Y") if i.get("added_at") else datetime.now().strftime("%B %Y"), #slice only year and month and convert month to string
                     "uri":  i["track"]["uri"], #track uri
                     "song": i["track"]["name"] #song name
                 }
