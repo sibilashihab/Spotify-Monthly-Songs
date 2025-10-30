@@ -28,8 +28,7 @@ class save:
                     "uri":  i["track"]["uri"] if i.get("track") else i["uri"], #track uri
                     "song": i["track"]["name"] if i.get("track") else i["name"] #song name
                 }
-                if trackdata not in tracks:  #avoid duplicates
-                    tracks.append(trackdata)
+                tracks.append(trackdata)
             return tracks
 
         liked_url = "https://api.spotify.com/v1/me/tracks?limit=50" #loop through first 50 liked songs
@@ -38,7 +37,9 @@ class save:
         liked_tracks = fetchTracks(liked_url)
         top_tracks = fetchTracks(top_url)
 
-        return liked_tracks + top_tracks
+        all_tracks = {t["uri"]: t for t in liked_tracks + top_tracks} # avoid duplicates by using uri as key
+        return list(all_tracks.values())
+
 
     def createPlaylist(self):
         #Check if playlist exists already if not add songs
