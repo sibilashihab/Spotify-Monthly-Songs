@@ -2,7 +2,7 @@ name: Monthly Playlist
 
 on:
   schedule:
-    - cron: '59 19 28-31 * *'  # Run at 23:59 GST 
+    - cron: '0 14 28-31 * *' # Run at 18:00 GST (14:00 UTC)
 
 jobs:
   run:
