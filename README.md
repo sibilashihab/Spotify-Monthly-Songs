@@ -111,6 +111,29 @@ Add this to GitHub:
 A long-lived token that lets your script get new access tokens without logging in again.
 You only need to generate this once.
 
+How to get it:
+- Replace your credentials within and including the <> in this link:
+ ```perl
+ https://accounts.spotify.com/authorize?client_id=<YOUR_CLIENT_ID>&response_type=code&redirect_uri=<YOUR_REDIRECT_URI>&scope=user-library-read%20user-top-read%20playlist-modify-private%20playlist-modify-public
+ ```
+- Authorize the app → get redirected to _https://example.com/?code=AUTH_CODE_
+- Copy the AUTH_CODE from the URL and paste it into `token.py` along with other credentials.
+- Run the file locally:
+  ```bash
+  python token.py
+  ```
+  The script will output
+  ```json
+  {
+    "access_token": "...",
+    "token_type": "Bearer",
+    "expires_in": 3600,
+    "refresh_token": "..."
+  }
+  ```
+- Copy the refresh_token and add it to GitHub secrets as SPOTIFY_REFRESH_TOKEN.
+
+
 ## Workflow Overview
 
 The GitHub Action runs automatically at 18:00 GST (14:00 UTC) on the last day of the month.
@@ -153,3 +176,4 @@ The script ensures it only executes on the last day of each month.
 ## Author
 
 Sibila Shihab
+
