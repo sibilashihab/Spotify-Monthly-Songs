@@ -40,7 +40,7 @@ class save:
             return tracks
 
         liked_url = "https://api.spotify.com/v1/me/tracks?limit=50" #loop through first 50 liked songs
-        top_url = "https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=50" #find users top songs in the past month
+        top_url = "https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=5" #find users top songs in the past month
 
         liked_tracks = fetchTracks(liked_url)
         top_tracks = fetchTracks(top_url)
