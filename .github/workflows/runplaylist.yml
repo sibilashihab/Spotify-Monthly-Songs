@@ -1,6 +1,7 @@
 name: Monthly Playlist
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: '0 15 28-31 * *' # Run at 19:00 GST (15:00 UTC)
 
@@ -25,7 +26,7 @@ jobs:
         run: python3 -c "import datetime; now=datetime.datetime.utcnow(); tomorrow=now+datetime.timedelta(days=1); exit(1) if now.month != tomorrow.month else exit(0)"
 
       - name: Run playlist script
-        if: steps.check_date.outcome == 'failure'  # Only run if it's the last day
+        #if: steps.check_date.outcome == 'failure'  # Only run if it's the last day
         env:
           SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
           SPOTIFY_BASE64: ${{ secrets.SPOTIFY_BASE64 }}
